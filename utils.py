@@ -12,11 +12,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
-# Load API settings from environment
-OPENAI_API_BASE = os.getenv("OPENAI_API_BASE", "https://bfhldevapigw.healthrx.co.in/sp-gw/api/openai/v1/")
+# Load from .env
+OPENAI_API_BASE = os.getenv("OPENAI_API_BASE")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 
 def download_pdf_from_url(blob_url: str) -> str:
     response = requests.get(blob_url)
@@ -62,7 +61,7 @@ def query_faiss(vectorstore: FAISS, question: str) -> str:
 
     llm = ChatOpenAI(
         temperature=0,
-        model="gpt-3.5-turbo",
+        model=OPENAI_MODEL,
         openai_api_base=OPENAI_API_BASE,
         openai_api_key=OPENAI_API_KEY
     )
